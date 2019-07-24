@@ -8,7 +8,7 @@ function Login() {
     <form>
         
         
-        <input className = {styles.input} name = "username" type="text" placeholder="Username"></input><br></br>
+        <input className = {styles.input} name = "email" type="text" placeholder="email"></input><br></br>
         <input className = {styles.input} name = "password" type="Password" placeholder="Password"></input><br></br>
  
         <button><h3>Log In</h3></button>
