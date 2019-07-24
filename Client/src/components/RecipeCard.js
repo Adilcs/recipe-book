@@ -11,7 +11,7 @@ function RecipeCard(props) {
         <img src = {img}></img>
       <p>{description}</p>
       <p>Created by : {name}</p>
-      <a href={`/recipes/${id}`}>Click to bake</a>
+      <a href={`/recipe/${id}`}>Click to bake</a>
  
     </article>
   </div>
