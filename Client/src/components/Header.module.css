@@ -2,6 +2,7 @@ header{
     background-color: green;
     text-align: left;
     display: flex;
+    box-shadow: 10px;
 
 }
 nav{

@@ -1,0 +1,22 @@
+.cardstyle {
+    padding: 2rem;
+  }
+  
+  .cardstyle > ul {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    grid-gap: 1rem;
+  }
+  
+  .cardstyle > ul > li {
+    list-style: none;
+    border: 1px solid #E2E2E2;
+    border-radius: .5rem;
+  }
+  
+
+  
+  .cardstyle > ul > li > a {
+    padding: .5rem 1rem;
+    margin: .5rem;
+  }
