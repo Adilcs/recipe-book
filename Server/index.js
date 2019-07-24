@@ -1,56 +1,42 @@
-var passport = require('passport')
-  , LocalStrategy = require('passport-local').Strategy;
-  var session = require("express-session")
+const jwt = require('jsonwebtoken');
+const tokenSecret = 'fuckyoupassport'
 const express = require('express')
 const app = express()
 const port = 3001
 const sqlite3 = require('sqlite3')
 const cors = require('cors')
 const bodyParser = require('body-parser')
-const bcrypt = require('bcrypt')
+
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
-app.use(session({ secret: 'keyboard cat' }));
-  app.use(passport.initialize());
-  app.use(passport.session());
-passport.use(new LocalStrategy(
-    {
-        usernameField: 'email',
-        passwordField: 'password'
-      },
-    function(username, password, done) {
-        db.get('SELECT email FROM Users WHERE email = ? AND password = ?', [
-           username,
-            password
-        ], (err, user) => {
+
+const forgeLoginToken = (user) => {
+    const token = jwt.sign({ id: user.id, full_name: user.first_name + " " + user.last_name, email: user.email }, tokenSecret);
+    if (jwt.verify(token, tokenSecret)) {
+        console.log("Forged token for id " + user.id)
+        return token;
+    }
+}
+
+const loginUser = (req, res) => {
+    return db.get('SELECT id, email, first_name, last_name FROM Users WHERE email = ? AND password = ?', [
+        req.body.email,
+        req.body.password
+    ], (err, user) => {
         if (err) { return done(err); }
         if (!user) {
-          return done(null, false, { message: 'Incorrect username.' });
+            return res.send({ status: 401, message: 'Incorrect username.' });
         }
-        if (!user.password===password) {
-          return done(null, false, { message: 'Incorrect password.' });
+        if (!user.password === req.body.password) {
+            return res.send({ status: 401, message: 'Incorrect password.' });
         }
-        return done(null, user);
-      });
-    }
-  ));
-  passport.serializeUser(function(user, done) {
-    done(null, user);
-  });
-  
-  passport.deserializeUser(function(user, done) {
-    done(null, user);
-  });
-  app.post('/login',passport.authenticate('local',
-        { successRedirect: '/',
-        failureRedirect: '/login',
-        failureFlash: true }),
-        function(req, res) {
-          // If this function gets called, authentication was successful.
-          // req.user contains the authenticated user.
-          return res.send({ status: 200, success:  req.user });
-        })
+        return res.send({ status: 200, success: "Logged in!", token: forgeLoginToken(user) });
+    });
+}
+app.post('/login', (req, res) => loginUser(req, res))
+
+
 app.get('/', (req, res) => res.send('Hello World!'))
 
 app.listen(port, () => console.log(`Example app listening on port ${port}!`))
@@ -66,19 +52,19 @@ let db = new sqlite3.Database("./recipedb.db", (err) => {
     } 
 })
 
-let sql = `SELECT id recipeid,
-                  title title
-           FROM Recipe`;
+const getRecipes = (res)=>{
 
-
-           db.all(sql, [], (err, rows) => {
+           db.all(`SELECT *
+           FROM Recipe`, [], (err, rows) => {
             if (err) {
               throw err;
             }
-            rows.forEach((row) => {
-              console.log(row.title);
-            });
+        //    rows.forEach((row) => {
+              return res.send({ status: 200, recipes: rows })
+     //       });
           });
+        }
+        app.get('/recipes', ( req,res) => getRecipes(res))
 
          /* let sql2 = 'INSERT INTO Recipe(title,description,ingredients,steps,user_id) VALUES ("testpost","testdesc","testing","teststep",2);'
           db.run(sql2, function(err) {
@@ -88,10 +74,6 @@ let sql = `SELECT id recipeid,
             console.log(`Rows inserted ${this.changes}`);
           });
 */
-
-
-
-
 
 
 
