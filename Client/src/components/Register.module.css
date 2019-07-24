@@ -1,0 +1,24 @@
+.box{
+    vertical-align: auto;
+    text-align: center;
+    margin:auto;
+    margin-top: 50px;
+    width: 500px;
+    height: 500px;
+    border-style: solid;
+    border-color: rgb(177, 177, 177);
+    border-radius: 10px;
+    
+}
+.box>h1{
+    
+    margin:auto;
+}
+.input{
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+    background-color: rgb(209, 209, 209);
+    color: white;
+}

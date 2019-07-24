@@ -4,6 +4,10 @@ import Header from './components/Header'
 import Footer from './components/Footer'
 import RecipeList from './components/RecipeList'
 import PlaceHolder from './components/PlaceHolderRecipe.json'
+import Register from './components/Register'
+import Login from './components/Login'
+import RecipeContainer from './components/RecipeContainer'
+
 
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
@@ -15,9 +19,9 @@ function App() {
       <Header></Header>
       
       <Route exact path="/" component={  RecipeList} />
-  <Route path="/login" component={()=><div>Login</div>} />
-  <Route path="/register" component={()=><div>Register</div>}/>
-  <Route path="/recipe" component={()=><div>Recipe</div>}/>
+  <Route path="/login" component={Login} />
+  <Route path="/register" component={Register}/>
+  <Route path="/recipe" component={RecipeContainer}/>
   <Route path="/addpost" component={()=><div>Add Post</div>}/>
      
 

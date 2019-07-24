@@ -2,7 +2,7 @@ import React from "react";
 import RecipeCard from "./RecipeCard";
 import PlaceHolder from "./PlaceHolderRecipe.json"
 import styles from "./RecipeList.module.css";
-function RecipeList() {
+function RecipeList(props) {
   return (
     <div>
       <section className={styles.cardstyle}>
