@@ -1,13 +1,13 @@
 import React from "react";
 import RecipeCard from "./RecipeCard";
-//import './App.css';
+import PlaceHolder from "./PlaceHolderRecipe.json"
 import styles from "./RecipeList.module.css";
-function RecipeList(props) {
+function RecipeList() {
   return (
     <div>
       <section className={styles.cardstyle}>
         <ul>
-          {props.recipes.map(recipe => (
+          {PlaceHolder.recipes.map(recipe => (
             <li key={recipe.id}>
               <RecipeCard
                 id={recipe.id}

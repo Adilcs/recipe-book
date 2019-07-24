@@ -1,5 +1,5 @@
 import React from 'react';
-
+import {Link } from "react-router-dom";
 //import './App.css';
 import styles from './Header.module.css'
 function Header() {
@@ -7,9 +7,9 @@ function Header() {
     <header><h1>Wake and Bake</h1>
     <nav>
         <ul>
-            <li>Log in</li>
-            <li>Register</li>
-            <li>Add Recipe</li>
+            <li><Link to ="/login">Log in</Link></li>
+            <li> <Link to ="/register">Register</Link></li>
+            <li><Link to ="/addpost">Add Post</Link></li>
         </ul>
         </nav>
     </header>
