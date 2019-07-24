@@ -7,6 +7,7 @@ import PlaceHolder from './components/PlaceHolderRecipe.json'
 import Register from './components/Register'
 import Login from './components/Login'
 import RecipeContainer from './components/RecipeContainer'
+import AddRecipe from './components/AddRecipe'
 
 
 import './App.css';
@@ -22,7 +23,7 @@ function App() {
   <Route path="/login" component={Login} />
   <Route path="/register" component={Register}/>
   <Route path="/recipe" component={RecipeContainer}/>
-  <Route path="/addpost" component={()=><div>Add Post</div>}/>
+  <Route path="/addpost" component={AddRecipe}/>
      
 
  
