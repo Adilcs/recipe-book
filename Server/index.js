@@ -54,14 +54,15 @@ let db = new sqlite3.Database("./recipedb.db", (err) => {
 
 const getRecipes = (res)=>{
 
-           db.all(`SELECT *
-           FROM Recipe`, [], (err, rows) => {
+           db.all(`SELECT Recipe.*, Users.first_name, Users.last_name
+           FROM Recipe LEFT JOIN Users ON Recipe.user_id = Users.id
+           ORDER BY Recipe.id DESC`, [], (err, rows) => {
             if (err) {
               throw err;
             }
-        //    rows.forEach((row) => {
+            rows.forEach((row) => {rows.img = '/img/food.jpg'})
               return res.send({ status: 200, recipes: rows })
-     //       });
+         //   });
           });
         }
         app.get('/recipes', ( req,res) => getRecipes(res))

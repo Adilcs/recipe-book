@@ -7,7 +7,7 @@ function RecipePage({match, recipes}) {
     
   return (
     <div>
-        <img src = {recipe.img}></img>
+       
         <h1>Recipe Title: {recipe.title}</h1>
         <h3>Created by : {recipe.FullName}</h3>
         <p>description :{recipe.description}</p>

@@ -8,7 +8,7 @@ function RecipeCard(props) {
     <div className={styles.foo}>
     <h1>{title}</h1>
     <article>
-        <img src = {img}></img>
+        <img src = "/img/food.jpg"></img>
       <p>{description}</p>
       <p>Created by : {name}</p>
       <a href={`/recipe/${id}`}>Click to bake</a>

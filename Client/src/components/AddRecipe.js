@@ -4,6 +4,10 @@ import styles from "./Register.module.css";
 import IngredientItems from "./IngredientItems"
 import StepList from "./StepList"
 import StepItems from "./StepItems"
+import { withFormik } from 'formik';
+import {  Form, Field } from 'formik';
+import API from '../Services/API';
+import { withRouter} from "react-router-dom";
 class AddRecipe extends React.Component{
     inputElement = React.createRef()
     inputElementstep = React.createRef()
@@ -60,11 +64,11 @@ class AddRecipe extends React.Component{
   return (
       <div className={styles.box}><br></br>
           <h1>Create a Recipe</h1><br></br>
-
-        <input className = {styles.input} name = "Title" type="text" placeholder="Title"></input><br></br>
-        <input className = {styles.input} name = "description"type="text" placeholder="Description"></input><br></br>
-        <p>upload image</p>
-        <input type="file" id="input" />
+<Form>
+        <Field className = {styles.input} name = "title" type="text" placeholder="Title"></Field><br></br>
+        <Field className = {styles.input} name = "description"type="text" placeholder="Description"></Field><br></br>
+      
+       
         <p>Ingredients: </p>
         <IngredientsList
           addItem={this.addItem}
@@ -84,12 +88,61 @@ class AddRecipe extends React.Component{
         <StepItems entries = {this.state.items2} />
 
 
-        <button><h3>add post</h3></button>
-
+        <button onClick={this.props.handleSubmit} type="submit"><h3>add post</h3></button>
+</Form>
  
     </div>
   )
   }
 }
 
-export default AddRecipe;
+export default withFormik({
+    mapPropsTovalues: ({props}) => ({ title: '' , description: '', user_id: props.user_id, date: new Date() }),
+  
+    // Custom sync validation
+    validate: values => {
+      const errors = {};
+  
+      if (!values.title) {
+        errors.title=true;
+         alert("type title");
+      }
+      if (!values.description) {
+        errors.lastname=true;
+        alert("description needed");
+     }
+     
+
+  
+      return errors;
+    },
+  
+    handleSubmit: (values, { setSubmitting, props }) => {
+      if(props.errors && props.errors.length > 0) return false;
+        //setTimeout(() => {
+        //alert(JSON.stringify(values, null, 2));
+        //setSubmitting(false);
+     // }, 1000);
+
+     API.post('/user', {
+        first_name: values.firstname,
+        last_name: values.lastname,
+        email: values.email,
+        password: values.password
+      })
+      .then(function (response) {
+        console.log(response);
+        alert(response.data.success);
+        props.history.replace({pathname: "/login"})
+        
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+    },
+  
+    displayName: 'BasicForm',
+    validateOnBlur: false,
+    validateOnChange: false
+  })(withRouter(AddRecipe));
+

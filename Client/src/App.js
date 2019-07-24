@@ -8,30 +8,56 @@ import Register from './components/Register'
 import Login from './components/Login'
 import RecipeContainer from './components/RecipeContainer'
 import AddRecipe from './components/AddRecipe'
+import jwt_decode from 'jwt-decode'
 
 
 import './App.css';
 import { BrowserRouter as Router, Route, Link } from "react-router-dom";
-function App() {
-  return (
-    <Router>
-    <div className="App">
-     
-      <Header></Header>
-      
-      <Route exact path="/" component={  RecipeList} />
-  <Route path="/login" component={Login} />
-  <Route path="/register" component={Register}/>
-  <Route path="/recipe" component={RecipeContainer}/>
-  <Route path="/addpost" component={AddRecipe}/>
-     
+class App extends React.Component {
 
- 
-     
-      <Footer></Footer>
-    </div>
-    </Router>
-  );
+  state = {
+    full_name: '',
+    user_id: null,
+    email: ''
+  }
+
+  componentDidMount() {
+    this.setLogin(localStorage.getItem('token'))
+  }
+
+  setLogin = (token) => {
+    if (token !== null) {
+      localStorage.setItem('token', token);
+      const decodedToken = jwt_decode(token);
+      this.setState({
+        full_name: decodedToken.full_name,
+        user_id: decodedToken.id,
+        email: decodedToken.email
+      })
+    }
+  }
+
+  render() {
+    return (
+      <Router>
+        <div className="App">
+
+          <Header fullName={this.state.full_name}></Header>
+
+          <Route exact path="/" component={RecipeList} />
+          <Route path="/login" render={(props) => <Login {...props} setLogin={this.setLogin} />} />
+          <Route path="/register" component={Register} />
+          <Route path="/recipe" component={RecipeContainer} />
+
+          <Route path="/addpost" render={(props) => <AddRecipe {...props} user_id={this.state.user_id} />} />
+
+
+
+          <Footer></Footer>
+        </div>
+      </Router>
+    );
+  }
 }
 
 export default App;
