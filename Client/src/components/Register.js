@@ -15,7 +15,7 @@ class Register extends React.Component{
     <Form>
         <Field className = {styles.Field} name = "firstname" type="text" placeholder="First Name"></Field><br></br>
         <Field className = {styles.Field} name = "lastname"type="text" placeholder="Last Name"></Field><br></br>
-        <Field className = {styles.Field} name = "email"type="email" placeholder="Email"></Field><br></br>
+        <Field className = {styles.Field} name = "email"type="email" placeholder="E-mail"></Field><br></br>
         
         <Field className = {styles.Field} name = "password" type="password" placeholder="Create Password"></Field><br></br>
         <Field className = {styles.Field} name = "passwordconfirm" type="password" placeholder="Confirm Password"></Field><br></br>

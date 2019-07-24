@@ -6,7 +6,7 @@ class StepItems extends Component {
   render() {
     const todoEntries = this.props.entries
     const listItems = todoEntries.map(this.createTasks)
-    return <ul className="theList">{listItems}</ul>
+    return <ol className="theList">{listItems}</ol>
   }
 }
 export default StepItems

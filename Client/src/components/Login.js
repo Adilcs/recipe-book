@@ -1,18 +1,18 @@
 import React from "react";
 import { withFormik } from 'formik';
 import { Form, Field } from 'formik';
-import styles from "./Register.module.css";
+import styles from "./Login.module.css";
 import API from '../Services/API';
 import { withRouter } from "react-router-dom";
 class Login extends React.Component {
   render() {
     return (
       <div className={styles.box}><br></br>
-        <h1>Welcome back</h1><br></br>
+        <h1>Welcome back!</h1><br></br>
         <Form>
 
 
-          <Field className={styles.Field} name="email" type="email" placeholder="email"></Field><br></br>
+          <Field className={styles.Field} name="email" type="email" placeholder="E-mail"></Field><br></br>
           <Field className={styles.Field} name="password" type="Password" placeholder="Password"></Field><br></br>
 
           <button type="submit"><h3>Log In</h3></button>

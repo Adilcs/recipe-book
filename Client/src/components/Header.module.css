@@ -1,23 +1,78 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,700');
+
 header{
-    background-color: green;
-    text-align: left;
-    display: flex;
-    box-shadow: 10px;
+    font-family: 'Montserrat';
+    background-color: rgb(18, 143, 18);
+    overflow: hidden;
+    box-shadow: 0 10px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+   
+   
+    
+       
+        text-shadow: 2px 2px 4px #000000;
+     
 
 }
-nav{
-    width :30%;
+
+.links{
+    margin:5px;
+        float: left;
+        color: white;
+        text-align: center;
+        padding: 12px;
+        text-decoration: none;
+        font-size: 18px; 
+        line-height: 25px;
+        border-radius: 0px;
+        font-weight: bold;
+      
+}
+.linkslogo {
+    margin:15px;
+    float: left;
+    color: white;
+    text-align: center;
+    padding: 12px;
+    text-decoration: none;
+
+    line-height: 25px;
+    border-radius: 0px;
+      font-size: 40px;
+    font-weight: bold;
+  }
   
-    
-}
-h1{
-    width: 70%;
-}
-nav>ul{
+  .links:hover {
+    background-color: rgb(194, 201, 202);
+    color: white;
+  }
+  .linkslogo:hover {
+    background-color: rgb(194, 201, 202);
+    color: white;
+  }
+
+.ulnone{
     list-style: none;
     display: flex;
     align-items:flex-end;
     justify-content: end;
     text-align: right;
-    margin: 30px;
+    margin: 10px;
 }
+.headerright {
+    float: right;
+  }
+  @media screen and (max-width: 600px) {
+    .links {
+      float: none;
+      display: block;
+      text-align: left;
+    }
+    .linkslogo {
+        float: none;
+        display: block;
+        text-align: left;
+      }
+    .headerright {
+      float: none;
+    }
+  }

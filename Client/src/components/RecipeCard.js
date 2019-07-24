@@ -5,13 +5,15 @@ import styles from './RecipeCard.module.css';
 function RecipeCard(props) {
  const{id, title, description, img, name}=props;
     return (
-    <div className={styles.foo}>
+    <div className={styles.box}>
+        <br ></br>
     <h1>{title}</h1>
+    <br ></br>
     <article>
         <img src = "/img/food.jpg"></img>
       <p>{description}</p>
       <p>Created by : {name}</p>
-      <a href={`/recipe/${id}`}>Click to bake</a>
+      <button className ={styles.buttons}><a className = {styles.link} href={`/recipe/${id}`}>Click to Bake!</a></button>
  
     </article>
   </div>

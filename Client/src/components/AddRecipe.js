@@ -1,6 +1,6 @@
 import React from "react";
 import IngredientsList from "./IngredientsList"
-import styles from "./Register.module.css";
+import styles from "./AddRecipe.module.css";
 import IngredientItems from "./IngredientItems"
 import StepList from "./StepList"
 import StepItems from "./StepItems"
@@ -38,6 +38,9 @@ class AddRecipe extends React.Component{
         
             currentItem: { text: '', key: '' },
           })
+          this.props.setFieldValue("ingredients", items.map(function (elem) {
+            return elem.text;
+          }).join('||'));
         }
       }
       handleInputStep = e => {
@@ -57,6 +60,9 @@ class AddRecipe extends React.Component{
             items2: items2,
             currentItem2: { text: '', key: '' },
           })
+          this.props.setFieldValue("steps", items2.map(function (elem) {
+            return elem.text;
+          }).join('||'));
         }
       }
       
@@ -65,11 +71,11 @@ class AddRecipe extends React.Component{
       <div className={styles.box}><br></br>
           <h1>Create a Recipe</h1><br></br>
 <Form>
-        <Field className = {styles.input} name = "title" type="text" placeholder="Title"></Field><br></br>
-        <Field className = {styles.input} name = "description"type="text" placeholder="Description"></Field><br></br>
+        <Field className = {styles.Field} name = "title" type="text" placeholder="Title"></Field><br></br>
+        <Field  className = {styles.Field} name = "description"type="textarea" placeholder="Description"></Field><br></br>
       
        
-        <p>Ingredients: </p>
+        
         <IngredientsList
           addItem={this.addItem}
           inputElement={this.inputElement}
@@ -78,7 +84,7 @@ class AddRecipe extends React.Component{
         />
         <IngredientItems entries = {this.state.items} />
 
-        <p>Steps</p>
+        
         <StepList
           addItemStep={this.addItemStep}
           inputElementstep={this.inputElementstep}
@@ -88,7 +94,7 @@ class AddRecipe extends React.Component{
         <StepItems entries = {this.state.items2} />
 
 
-        <button onClick={this.props.handleSubmit} type="submit"><h3>add post</h3></button>
+        <button onClick={this.props.handleSubmit} type="submit"><h3>Post Recipe</h3></button>
 </Form>
  
     </div>
@@ -124,16 +130,18 @@ export default withFormik({
         //setSubmitting(false);
      // }, 1000);
 
-     API.post('/user', {
-        first_name: values.firstname,
-        last_name: values.lastname,
-        email: values.email,
-        password: values.password
+     API.post('/recipe', {
+        title: values.title,
+        description: values.description,
+        ingredients: values.ingredients,
+        steps: values.steps,
+        user_id: values.user_id,
+        date: values.date
       })
       .then(function (response) {
         console.log(response);
         alert(response.data.success);
-        props.history.replace({pathname: "/login"})
+        props.history.replace({pathname: "/"})
         
       })
       .catch(function (error) {

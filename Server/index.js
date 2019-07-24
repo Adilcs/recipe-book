@@ -94,3 +94,48 @@ const registerUser = async (req, res) => {
 
 
 app.post('/user', (req, res) => registerUser(req, res))
+
+
+const addRecipe = async (req, res) => {
+    console.log("Add Recipe" + req.body.title);
+
+    db.run('INSERT INTO Recipe (title, description, ingredients, steps, user_id, timestamp) VALUES (?, ?, ?, ?, ?, ?)', [
+        req.body.title,
+        req.body.description,
+        req.body.ingredients,
+        req.body.steps,
+        req.body.user_id,
+        req.body.timestamp
+    ]);
+    return res.send({ status: 200, success: "Recipe Added " + req.body.title })
+    //
+}
+
+
+
+app.post('/recipe', (req, res) => addRecipe(req, res))
+
+
+const getRecipe = (req,res)=>{
+
+    db.get(`SELECT Recipe.*, Users.first_name, Users.last_name
+    FROM Recipe LEFT JOIN Users ON Recipe.user_id = Users.id
+    WHERE Recipe.id = ?`, [req.query.id], (err, row) => {
+     if (err) {
+       throw err;
+     }
+     console.log(row);
+       return res.send({ status: 200, recipes: row })
+  //   });
+   });
+ }
+ app.get('/recipe', ( req,res) => getRecipe(req,res))
+
+  /* let sql2 = 'INSERT INTO Recipe(title,description,ingredients,steps,user_id) VALUES ("testpost","testdesc","testing","teststep",2);'
+   db.run(sql2, function(err) {
+     if (err) {
+       return console.error(err.message);
+     }
+     console.log(`Rows inserted ${this.changes}`);
+   });
+*/

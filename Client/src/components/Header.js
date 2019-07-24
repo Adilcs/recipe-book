@@ -7,19 +7,21 @@ function Header({ fullName }) {
 
 
   return (
-    <header><h1><Link to="/">Wake and Bake</Link></h1>
+    <header><h1><Link to="/" className={styles.linkslogo}>Wake and Bake</Link></h1>
       <nav>
-        <ul>
+          <div className={styles.headerright}>
+        <ul  className={styles.ulnone}>
 
 
           {fullName === '' ?
-            (<React.Fragment><li><Link to="/login">Log in</Link></li>
-              <li> <Link to="/register">Register</Link></li></React.Fragment>)
-            : (<React.Fragment>{fullName}
-              <li><Link to="/addpost">Add Post</Link></li></React.Fragment>)}
+            (<React.Fragment><li ><Link to="/login"className={styles.links}>Log in</Link></li>
+              <li> <Link to="/register" className={styles.links}>Register</Link></li></React.Fragment>)
+            : (<React.Fragment><li><Link className={styles.links}>Welcome Back {fullName}!</Link></li>
+              <li><Link to="/addpost" className={styles.links}>Add Post</Link></li></React.Fragment>)}
 
 
         </ul>
+        </div>
       </nav>
     </header>
   );
