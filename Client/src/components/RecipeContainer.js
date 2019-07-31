@@ -3,15 +3,15 @@ import { BrowserRouter as Router, Route, Link } from "react-router-dom";
 import styles from "./RecipeContainer.module.css";
 import RecipePage from "./RecipePage";
 
-function RecipeContainer({match}) {
+function RecipeContainer(props) {
   return (
    
     <div>
   
-        <Route path={`${match.path}/:id`} component={RecipePage} />
+  <Route path={`${props.match.path}/:id`}  render={(props2) => <RecipePage {...props2} user_id={props.user_id}/>}/>
       <Route
         exact
-        path={match.path}
+        path={props.match.path}
         render={() => <h3>Please select a Recipe.</h3>}
         />
     </div>

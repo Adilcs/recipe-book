@@ -15,9 +15,9 @@
     box-shadow: 0 8px 8px 0 rgba(0, 0, 0, 0.2), 0 10px 25px 0 rgba(0, 0, 0, 0.19);
     
 }
-button{
+.button{
     width: 30%;
-    background-color: rgb(84, 146, 196);
+    background-color: rgb(182, 78, 74);
     color: white;
     padding: 0;
     margin: 10px;

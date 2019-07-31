@@ -47,7 +47,7 @@ class App extends React.Component {
           <Route exact path="/" component={RecipeList} />
           <Route path="/login" render={(props) => <Login {...props} setLogin={this.setLogin} />} />
           <Route path="/register" component={Register} />
-          <Route path="/recipe" component={RecipeContainer} />
+    <Route path="/recipe"  render={(props) => <RecipeContainer {...props} user_id={this.state.user_id}/>} />
 
           <Route path="/addpost" render={(props) => <AddRecipe {...props} user_id={this.state.user_id} />} />
 

@@ -5,12 +5,29 @@ import API from "../Services/API"
 class RecipePage extends React.Component {
   state = { recipe: null };
 
+
+
+  handleDelete=()=>{
+    let _this = this;
+    API.delete('/recipedelete?id=' + this.props.match.params.id)
+    .then(function (response) {
+      _this.props.history.replace({ pathname: "/" })
+      console.log(response);
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+  }
   componentDidMount() {
     let _this = this;
     API.get('/recipe?id=' + this.props.match.params.id)
       .then(function (response) {
-        let ingredients = response.data.recipes.ingredients.split('||')
-        let steps = response.data.recipes.steps.split('||')
+        let ingredients = ["air"]
+        let steps = ["done"]
+        if(response.data.recipes.ingredients!=null){
+        ingredients = response.data.recipes.ingredients.split('||')}
+        if(response.data.recipes.steps!=null){
+        steps = response.data.recipes.steps.split('||')}
         _this.setState({ recipe: {...response.data.recipes, ingredients: ingredients, steps: steps } })
         console.log(response);
       })
@@ -31,7 +48,7 @@ class RecipePage extends React.Component {
 
         <h1>Recipe Title: {recipe.title}</h1>
         <img src = "/img/food.jpg" />
-        <h3>Created by : {recipe.name}</h3>
+        <h3>Created by : {recipe.first_name} {recipe.last_name}</h3>
         <p>description :{recipe.description}</p>
         <p>Posted on : </p>
         <p>Ingredients : </p>
@@ -51,8 +68,16 @@ class RecipePage extends React.Component {
           </li>
 
         ))} </ol></p>
+         {console.log("props user id" , this.props.user_id, "recipe user id", recipe.user_id)}
+
+{this.props.user_id == recipe.user_id ?
+            (<React.Fragment><button className= {styles.button} onClick={this.handleDelete} type="submit">Delete Post</button></React.Fragment>):
+            (<React.Fragment></React.Fragment>
+           )}
 
 
+
+         
       </div>
     );
   }

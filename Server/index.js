@@ -111,9 +111,25 @@ const addRecipe = async (req, res) => {
     //
 }
 
-
-
 app.post('/recipe', (req, res) => addRecipe(req, res))
+
+app.delete('/recipedelete', (req, res) => deleteRecipe(req, res))
+
+
+const deleteRecipe = async (req, res) => {
+ 
+
+  db.run('DELETE FROM Recipe WHERE id=?', [
+    req.query.id
+      
+  ]);
+  return res.send({ status: 200, success: "Recipe Deleted " + req.body.title })
+  //
+}
+
+
+
+
 
 
 const getRecipe = (req,res)=>{
