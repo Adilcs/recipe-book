@@ -6,10 +6,14 @@ const port = 3001
 const sqlite3 = require('sqlite3')
 const cors = require('cors')
 const bodyParser = require('body-parser')
+const multer = require("multer");
 
 app.use(cors())
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+const upload = multer({
+  dest: "images/"
+});
 
 const forgeLoginToken = (user) => {
     const token = jwt.sign({ id: user.id, full_name: user.first_name + " " + user.last_name, email: user.email }, tokenSecret);
@@ -97,11 +101,16 @@ const registerUser = async (req, res) => {
 app.post('/user', (req, res) => registerUser(req, res))
 
 
-const addRecipe = async (req, res) => {
+const addRecipe = async (req, res, next) => {
     console.log("Add Recipe" + req.body.title);
+    console.log("img path" + req.file);
 
-    db.run('INSERT INTO Recipe (title, description, ingredients, steps, user_id, timestamp) VALUES (?, ?, ?, ?, ?, ?)', [
+
+
+
+    db.run('INSERT INTO Recipe (title,  description, ingredients, steps, user_id, timestamp) VALUES (?, ?, ?, ?, ?, ?)', [
         req.body.title,
+       // req.body.img,
         req.body.description,
         req.body.ingredients,
         req.body.steps,
@@ -112,7 +121,7 @@ const addRecipe = async (req, res) => {
     //
 }
 
-app.post('/recipe', (req, res) => addRecipe(req, res))
+app.post('/recipe', upload.single("img") , (req, res, next) => addRecipe(req, res, next))
 
 app.delete('/recipedelete', (req, res) => deleteRecipe(req, res))
 

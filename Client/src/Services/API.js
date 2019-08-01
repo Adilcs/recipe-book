@@ -16,7 +16,7 @@ switch (window.location.hostname) {
 
 const API = axios.create({
   baseURL: baseURL,
-  responseType: "json"
+  //responseType: "json"
 });
 
 export default API;

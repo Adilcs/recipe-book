@@ -8,6 +8,7 @@ import { withFormik } from 'formik';
 import {  Form, Field } from 'formik';
 import API from '../Services/API';
 import { withRouter} from "react-router-dom";
+//import FormData from 'form-data'
 class AddRecipe extends React.Component{
     inputElement = React.createRef()
     inputElementstep = React.createRef()
@@ -82,6 +83,9 @@ class AddRecipe extends React.Component{
           <h1>Create a Recipe</h1><br></br>
 <Form>
         <Field className = {styles.Field} name = "title" type="text" placeholder="Title"></Field><br></br>
+        <Field accept="image/*" onChange={(event) => {
+  this.props.setFieldValue("img", event.currentTarget.files[0]);
+}} className = {styles.Field} name = "img" type="file" ></Field><br></br>
         <Field  className = {styles.Field} name = "description"type="textarea" placeholder="Description"></Field><br></br>
       
        
@@ -113,7 +117,7 @@ class AddRecipe extends React.Component{
 }
 
 export default withFormik({
-    mapPropsTovalues: ({props}) => ({ title: '' , description: '', user_id: props.user_id, date: new Date() }),
+    mapPropsTovalues: ({props}) => ({ title: '' , img : '' , description: '', user_id: props.user_id, date: new Date() }),
   
     // Custom sync validation
     validate: values => {
@@ -135,20 +139,18 @@ export default withFormik({
   
     handleSubmit: (values, { setSubmitting, props }) => {
       if(props.errors && props.errors.length > 0) return false;
-        //setTimeout(() => {
-        //alert(JSON.stringify(values, null, 2));
-        //setSubmitting(false);
-     // }, 1000);
+      
+      let data = new FormData();
 
-     API.post('/recipe', {
-        title: values.title,
-        description: values.description,
-        ingredients: values.ingredients,
-        steps: values.steps,
-        user_id: values.user_id,
-        date: values.date
-      })
-      .then(function (response) {
+      data.append('title', values.title);
+      data.append('img', values.img);
+      data.append('description', values.description);
+      data.append('ingredients', values.ingredients);
+      data.append('steps', values.steps);
+      data.append('user_id', values.user_id);
+      data.append('date', values.date);
+
+     API.post('/recipe', data, { headers: { 'Content-Type': 'multipart/form-data' } }).then(function (response) {
         console.log(response);
         alert(response.data.success);
         props.history.replace({pathname: "/"})
