@@ -71,7 +71,8 @@ class RecipePage extends React.Component {
          {console.log("props user id" , this.props.user_id, "recipe user id", recipe.user_id)}
 
 {this.props.user_id == recipe.user_id ?
-            (<React.Fragment><button className= {styles.button} onClick={this.handleDelete} type="submit">Delete Post</button></React.Fragment>):
+            (<React.Fragment><button className= {styles.button} onClick={this.handleDelete} type="submit">Delete Post</button><br></br>
+            <button className= {styles.button2}  type="submit">Update Post</button></React.Fragment>):
             (<React.Fragment></React.Fragment>
            )}
 

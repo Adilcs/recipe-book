@@ -52,11 +52,12 @@ let db = new sqlite3.Database("./recipedb.db", (err) => {
     } 
 })
 
-const getRecipes = (res)=>{
-
+const getRecipes = (req,res)=>{
+          var size = 10
            db.all(`SELECT Recipe.*, Users.first_name, Users.last_name
            FROM Recipe LEFT JOIN Users ON Recipe.user_id = Users.id
-           ORDER BY Recipe.id DESC`, [], (err, rows) => {
+           ORDER BY Recipe.id DESC
+           LIMIT ?,?`, [(req.query.page * size), size], (err, rows) => {
             if (err) {
               throw err;
             }
@@ -65,7 +66,7 @@ const getRecipes = (res)=>{
          //   });
           });
         }
-        app.get('/recipes', ( req,res) => getRecipes(res))
+        app.get('/recipes', ( req,res) => getRecipes(req,res))
 
          /* let sql2 = 'INSERT INTO Recipe(title,description,ingredients,steps,user_id) VALUES ("testpost","testdesc","testing","teststep",2);'
           db.run(sql2, function(err) {

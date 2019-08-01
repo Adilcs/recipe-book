@@ -36,13 +36,21 @@ class App extends React.Component {
       })
     }
   }
+  logOut = () =>{
+    
+    localStorage.clear();
+    this.setState({   full_name: '',
+    user_id: null,
+    email: ''})
+  }
+
 
   render() {
     return (
       <Router>
         <div className="App">
 
-          <Header fullName={this.state.full_name}></Header>
+          <Header logOut={this.logOut} fullName={this.state.full_name}></Header>
 
           <Route exact path="/" component={RecipeList} />
           <Route path="/login" render={(props) => <Login {...props} setLogin={this.setLogin} />} />
