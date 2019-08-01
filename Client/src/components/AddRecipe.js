@@ -20,6 +20,16 @@ class AddRecipe extends React.Component{
           currentItem2: {text:'', key:''},
         }
       }
+      deleteIngredientItem = key =>{
+          let newItems= this.state.items.filter( (item) => item.key!== key )
+          this.setState({items: newItems})
+      }
+      deleteStepItem = key =>{
+        let newItems= this.state.items2.filter( (item) => item.key!== key )
+        this.setState({items2: newItems})
+      }
+
+
       handleInput = e => {
         const itemText = e.target.value
         const currentItem = { text: itemText, key: Date.now() }
@@ -82,7 +92,7 @@ class AddRecipe extends React.Component{
           handleInput={this.handleInput}
           currentItem={this.state.currentItem}
         />
-        <IngredientItems entries = {this.state.items} />
+        <IngredientItems  deleteIngredientItem={this.deleteIngredientItem}  entries = {this.state.items} />
 
         
         <StepList
@@ -91,7 +101,7 @@ class AddRecipe extends React.Component{
           handleInputStep={this.handleInputStep}
           currentItem2={this.state.currentItem2}
         />
-        <StepItems entries = {this.state.items2} />
+        <StepItems deleteStepItem={this.deleteStepItem} entries = {this.state.items2} />
 
 
         <button onClick={this.props.handleSubmit} type="submit"><h3>Post Recipe</h3></button>
