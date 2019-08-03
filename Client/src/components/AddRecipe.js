@@ -25,7 +25,7 @@ class AddRecipe extends React.Component {
   }
   async componentDidMount(){
     if( this.props.location.state !== undefined){
-   // if( this.props.location.state.hasOwnProperty("recipe")){
+      // if( this.props.location.state.hasOwnProperty("recipe")){
      await this.setState({
         recipe : this.props.location.state.recipe,
         items: this.props.location.state.recipe.ingredients.map(( boob,i) => { return {text: boob , key: i}}),
@@ -110,7 +110,7 @@ class AddRecipe extends React.Component {
        <br></br>
         <Form>
           <Field className={styles.Field} name="title" type="text" placeholder="Title" ></Field><br></br>
-          {(this.state.recipe !== null && this.state.recipe.img !== null)?   (<React.Fragment><img width = "256" height = "256" src={"http://localhost:3001/" + this.state.recipe.img}></img><br></br><button type="button" className = {styles.button2} onClick ={ () =>this.setState({ recipe : { ...this.state.recipe, img : null}})} >Delete Image</button></React.Fragment>):(<React.Fragment><input accept="image/*" onChange={(event) => {
+          {(this.state.recipe !== null && this.state.recipe.img !== null)?   (<React.Fragment><img width = "256" height = "256" src={"http://localhost:3001/" + this.state.recipe.img}></img><br></br><button type="button" className = {styles.button2} onClick ={ () =>this.setState({ recipe : { ...this.state.recipe, img : null}})} >Delete Image</button></React.Fragment>):(<React.Fragment><p>Upload Image</p><input accept="image/*" onChange={(event) => {
             if (!event.target.files) return;
             this.props.setFieldValue("img", event.target.files[0]);
           }} className={styles.Field} type="file" /></React.Fragment>)}<br></br>
