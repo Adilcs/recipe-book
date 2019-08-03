@@ -119,7 +119,38 @@ const addRecipe = async (req, res, next) => {
     return res.send({ status: 200, success: "Recipe Added " + req.body.title })
 }
 
-app.post('/recipe', upload.single("img"), (req, res, next) => addRecipe(req, res, next))
+const updateRecipe = async (req, res, next) => {
+    console.log("Edit Recipe" + req.body.title);
+   // console.log("img path" + req.file.path);
+       let filepath = "";
+    if(req.file !== undefined ){
+         filepath = req.file.path
+    } else { filepath = req.body.img}
+    db.run('UPDATE Recipe SET title = ? , img = ?, description = ?, ingredients = ?, steps = ? , user_id = ?, timestamp = ? WHERE id = ?', [
+        req.body.title,
+        filepath,
+        req.body.description,
+        req.body.ingredients,
+        req.body.steps,
+        req.body.user_id,
+        req.body.timestamp,
+        req.body.id
+
+    ]);
+
+    return res.send({ status: 200, success: "Recipe Added " + req.body.title })
+}
+
+app.post('/recipe', upload.single("img"), (req, res, next) => {
+    if(req.body.id == undefined){
+       return addRecipe(req, res, next)
+    } else {
+       return updateRecipe(req, res, next)
+    }
+    
+   
+})
+
 app.get('/images/:slug', (req, res) => res.sendFile(path.join(__dirname, "./images/" + req.params.slug)))
 
 app.delete('/recipedelete', (req, res) => deleteRecipe(req, res))

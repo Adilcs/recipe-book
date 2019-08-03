@@ -28,6 +28,18 @@ button{
     cursor: pointer;
 
 }
+.button2{
+  width: 30%;
+  background-color:  rgb(185, 67, 67);
+  color: white;
+  padding: 0px;
+  margin: 10px;
+  border: none;
+  border-color: grey;
+  border-radius: 4px;
+  cursor: pointer;
+
+}
 .box>h1{
 
     margin:auto;

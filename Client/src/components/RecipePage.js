@@ -2,6 +2,7 @@ import React from "react";
 import PlaceHolder from "./PlaceHolderRecipe.json"
 import styles from "./RecipePage.module.css";
 import API from "../Services/API"
+import { Link } from "react-router-dom";
 class RecipePage extends React.Component {
   state = { recipe: null };
 
@@ -47,7 +48,7 @@ class RecipePage extends React.Component {
       <div className = {styles.box}>
 
         <h1>Recipe Title: {recipe.title}</h1>
-        <img src = "/img/food.jpg" />
+        <img width = "256" height = "256" src={"http://localhost:3001/" + recipe.img}></img>
         <h3>Created by : {recipe.first_name} {recipe.last_name}</h3>
         <p>description :{recipe.description}</p>
         <p>Posted on : </p>
@@ -72,7 +73,13 @@ class RecipePage extends React.Component {
 
 {this.props.user_id == recipe.user_id ?
             (<React.Fragment><button className= {styles.button} onClick={this.handleDelete} type="submit">Delete Post</button><br></br>
-            <button className= {styles.button2}  type="submit">Update Post</button></React.Fragment>):
+            <Link to={{
+              pathname : "/addpost",
+              state : {
+                recipe : recipe
+              }
+
+            }}  type="submit"><button className= {styles.button2}>Update Post</button></Link></React.Fragment>):
             (<React.Fragment></React.Fragment>
            )}
 

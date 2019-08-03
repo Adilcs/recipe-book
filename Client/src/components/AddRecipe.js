@@ -14,12 +14,33 @@ class AddRecipe extends React.Component {
   inputElementstep = React.createRef()
   constructor() {
     super()
+
     this.state = {
+      recipe : null,
       items: [],
       items2: [],
       currentItem: { text: '', key: '' },
       currentItem2: { text: '', key: '' },
     }
+  }
+  async componentDidMount(){
+    if( this.props.location.state.hasOwnProperty("recipe")){
+     await this.setState({
+        recipe : this.props.location.state.recipe,
+        items: this.props.location.state.recipe.ingredients.map(( boob,i) => { return {text: boob , key: i}}),
+        items2: this.props.location.state.recipe.steps.map(( boob,i) => { return {text: boob , key: i}})
+        
+      })
+      this.props.resetForm(this.props.location.state.recipe)
+      this.props.setFieldValue("ingredients", this.state.items.map(function (elem) {
+        return elem.text;
+      }).join('||'));
+      this.props.setFieldValue("steps", this.state.items2.map(function (elem) {
+        return elem.text;
+      }).join('||'));
+      console.log(this.props.location.state.recipe)
+    }
+   
   }
   deleteIngredientItem = key => {
     let newItems = this.state.items.filter((item) => item.key !== key)
@@ -80,13 +101,18 @@ class AddRecipe extends React.Component {
   render() {
     return (
       <div className={styles.box}><br></br>
-        <h1>Create a Recipe</h1><br></br>
+      {this.state.recipe !== null ?
+            (<React.Fragment><h1>Edit {this.state.recipe.title}</h1></React.Fragment>)
+            :
+            (<React.Fragment><h1>Create a Recipe</h1></React.Fragment>
+           )}
+       <br></br>
         <Form>
-          <Field className={styles.Field} name="title" type="text" placeholder="Title"></Field><br></br>
-          <input accept="image/*" onChange={(event) => {
+          <Field className={styles.Field} name="title" type="text" placeholder="Title" ></Field><br></br>
+          {(this.state.recipe !== null && this.state.recipe.img !== null)?   (<React.Fragment><img width = "256" height = "256" src={"http://localhost:3001/" + this.state.recipe.img}></img><br></br><button type="button" className = {styles.button2} onClick ={ () =>this.setState({ recipe : { ...this.state.recipe, img : null}})} >Delete Image</button></React.Fragment>):(<React.Fragment><input accept="image/*" onChange={(event) => {
             if (!event.target.files) return;
             this.props.setFieldValue("img", event.target.files[0]);
-          }} className={styles.Field} type="file" /><br></br>
+          }} className={styles.Field} type="file" /></React.Fragment>)}<br></br>
           <Field className={styles.Field} name="description" type="textarea" placeholder="Description"></Field><br></br>
 
 
@@ -109,7 +135,11 @@ class AddRecipe extends React.Component {
           <StepItems deleteStepItem={this.deleteStepItem} entries={this.state.items2} />
 
 
-          <button onClick={this.props.handleSubmit} type="submit"><h3>Post Recipe</h3></button>
+          <button onClick={this.props.handleSubmit} type="submit">{this.state.recipe !== null ?
+            (<React.Fragment><h3>Update Recipe</h3></React.Fragment>)
+            :
+            (<React.Fragment><h3>Post Recipe</h3></React.Fragment>
+           )}</button>
         </Form>
 
       </div>
@@ -142,7 +172,7 @@ export default withFormik({
     if (props.errors && props.errors.length > 0) return false;
 
     let data = new FormData();
-
+    if( values.hasOwnProperty('id')) {data.append('id', values.id)}
     data.append('title', values.title);
     data.append('img', values.img);
     data.append('description', values.description);
