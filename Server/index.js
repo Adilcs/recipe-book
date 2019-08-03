@@ -104,11 +104,14 @@ app.post('/user', (req, res) => registerUser(req, res))
 
 const addRecipe = async (req, res, next) => {
     console.log("Add Recipe" + req.body.title);
-    console.log("img path" + req.file.path);
-
+    //console.log("img path" + req.file.path);
+    let filepath = "images/food.jpg";
+    if(req.file !== undefined ){
+         filepath = req.file.path
+    }
     db.run('INSERT INTO Recipe (title, img, description, ingredients, steps, user_id, timestamp) VALUES (?, ?, ?, ?, ?, ?, ?)', [
         req.body.title,
-        req.file.path,
+        filepath,
         req.body.description,
         req.body.ingredients,
         req.body.steps,

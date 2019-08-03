@@ -24,7 +24,7 @@ class AddRecipe extends React.Component {
     }
   }
   async componentDidMount(){
-    if( this.props.location.state !== undefined){
+    if( this.props.location !== undefined && this.props.location.state !== undefined){
       // if( this.props.location.state.hasOwnProperty("recipe")){
      await this.setState({
         recipe : this.props.location.state.recipe,
